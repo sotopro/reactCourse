@@ -1,0 +1,13 @@
+.primary-button {
+    width: 60%;
+    padding: 5px;
+    background-color: #61dafb;
+    margin: 0 auto;
+    border-radius: 5px;
+}
+
+.text-button {
+    font-size: 14px;
+    color: #212121;
+    font-weight: bold;
+}
