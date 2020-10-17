@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Product from './components/Product/'
+import Product from './components/ProductHook'
 import './App.css';
 
 class App extends Component {
