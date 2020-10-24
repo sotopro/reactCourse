@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components'
 import Profiles from '../Profiles'
-
-const Container = styled.div `
-    width: 100vw;
-    height: 100vh;
-`
+import CounterHook from '../CounterHook'
+import {CounterMemo} from '../CounterMemo'
+import InputFocus from '../InputFocus';
+import UserProfile from '../UserProfile'
 
 const Dashboard = ({ handleLogout }) => {
     return (
@@ -14,9 +13,13 @@ const Dashboard = ({ handleLogout }) => {
                 <h2>Welcome!</h2>
                 <button onClick={ handleLogout}>Logout</button>
             </nav>
-            <Container>
+            <div>
                 <Profiles />
-            </Container>
+                {/* <CounterHook />
+                <CounterMemo /> */}
+                {/* <InputFocus /> */}
+                <UserProfile />
+            </div>
         </section>
     )
 }

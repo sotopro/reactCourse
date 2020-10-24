@@ -92,12 +92,6 @@ button {
 
 .dashboard {
   width: 100%;
-  /* background: radial-gradient(
-    ellipse at left bottom,
-    rgba(27,164,166,1) 0%,
-    rgba(32,204,207,0.9) 59%,
-    rgba(18,107,109, 0.9) 100%
-  ); */
 }
 
 .dashboard nav {
@@ -117,4 +111,28 @@ button {
   width: 90px;
   padding: 8px 0;
   background-color: #2b5458;
+}
+.containerCounter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 900px;
+  margin: 40px auto;
+}
+
+.containerCounter button {
+  width: 160px;
+  padding: 14px 0;
+}
+
+.containerCounter input {
+  width: 100%;
+  /* border: none; */
+  outline: none;
+  font-size: 19px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  letter-spacing: 1px;
+  margin-right: 10px;
 }
