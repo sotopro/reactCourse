@@ -1,93 +1,97 @@
-import React, { useState, useReducer } from 'react';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import Login from './components/Login'
+import fire from './fire'
+import './App.css'
 
-const formReducer = (state, event) => {
-  if(event.reset) {
-    return {
-      apple: '',
-      count: 0,
-      name: '',
-      'gift-wrap': false
-    }
-  }
-  return {
-    ...state,
-    [event.name]: event.value
-  }
-}
+const App  = () => {
+    const [user, setUser] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [hasAccount, setHasAccount] = useState('');
 
-const App = () => {
-  const [formData, setFormData] = useReducer(formReducer, {
-  })
-  const [submitting, setSubmitting] = useState(false)
-  const handleSubmit = event => {
-    event.preventDefault();
-    setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false)
-      setFormData({
-        reset:true
-      })
-    }, 3000)
-  }
-  const handleChange = event => {
-    const isCheckbox = event.target.type === 'checkbox'
-    setFormData({
-      name: event.target.name,
-      value: isCheckbox ? event.target.checked : event.target.value
-    })
-  }
-  return (
-    <div className="wrapper">
-    {console.log(formData)}
-    <h1>How About them Apples</h1>
-    {submitting && 
-      <div>
-        You are submitting the following:
-        <ul>
-          {Object.entries(formData).map(([name, value]) => (
-            <li key="name"><strong>{name}</strong>: {value.toString()}</li>
-          ))}
-        </ul>
-      </div>
+    const clearInput = () => {
+        setEmail('')
+        setPassword('');
     }
-      <form onSubmit={handleSubmit}>
-        <fieldset disabled={submitting}>
-          <label>
-            <p>Name</p>
-            <input name="name" onChange={handleChange} value={formData.name}/>
-          </label>
-        </fieldset>
-        <fieldset disabled={submitting}>
-          <label>
-            <p>Apples</p>
-            <select name="apple" onChange={handleChange} value={formData.apple}>
-              <option value="">-- Please choose an option--</option>
-              <option value="fuji">Fuji</option>
-              <option value="daniel"> Daniel</option>
-              <option value="honey">Honey</option>
-            </select>
-          </label>
-          <label>
-            <p>Count</p>
-            <input type="number" name="count" onChange={handleChange} step="1" value={formData.count}/>
-          </label>
-          <label>
-            <p>Gift Wrap</p>
-            <input 
-              type="checkbox"
-              name="gift-wrap"
-              onChange={handleChange}
-              checked={formData['gift-wrap']}
-              disabled={formData.apple !== 'fuji'}
+
+    const clearErrors = () => {
+        setEmailError('');
+        setPasswordError('');
+    }
+
+    const handleLogin = () => {
+        clearErrors();
+        fire
+            .auth()
+            .signInWithEmailAndPassword(email, password)
+            .catch(err => {
+                switch(err.code) {
+                    case 'auth/invalid-email':
+                    case 'auth/user-disabled':
+                    case 'auth/user-not-found':
+                        setEmailError(err.message);
+                        break;
+                    case 'auth/wrong-password':
+                        setPasswordError(err.message)
+                        break;
+                }
+            })
+    }
+
+    const handleSignUp = () => {
+        clearErrors();
+        fire
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .catch(err => {
+                switch(err.code) {
+                    case 'auth/email-already-in-use':
+                    case 'auth/invalid-email':
+                        setEmailError(err.message)
+                        break;
+                    case 'auth/weak-password':
+                        setPasswordError(err.message)
+                        break;
+                }
+            })
+    }
+
+    const handleLogout = () => {
+        fire.auth().signOut();
+    }
+
+    const authListener = () => {
+        fire.auth().onAuthStateChanged(user => {
+            if(user){
+                clearInput()
+                setUser(user)
+            } else {
+                setUser('');
+            }
+        })
+    }
+
+    useEffect(() => {
+        authListener();
+    }, [])
+    return (
+        <div>
+            <Login 
+                email={email}
+                setEmail={setEmail}
+                password={password}
+                setPassword={setPassword}
+                handleLogin={handleLogin}
+                handleSignUp={handleSignUp}
+                hasAccount={hasAccount}
+                setHasAccount={setHasAccount}
+                emailError={emailError}
+                passwordError={passwordError}
             />
-          </label>
-        </fieldset>
-        <button type="submit" disabled={submitting}>Submit</button>
-      </form>
-    </div>
-  )
-
-	}
+        </div>
+    )
+}
 
 export default App;
