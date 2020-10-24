@@ -92,13 +92,12 @@ button {
 
 .dashboard {
   width: 100%;
-  min-height: 100vh;
-  background: radial-gradient(
+  /* background: radial-gradient(
     ellipse at left bottom,
     rgba(27,164,166,1) 0%,
     rgba(32,204,207,0.9) 59%,
     rgba(18,107,109, 0.9) 100%
-  );
+  ); */
 }
 
 .dashboard nav {
