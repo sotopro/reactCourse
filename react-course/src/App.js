@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Login from './components/Login'
+import Dashboard from './components/Dashboard'
 import fire from './fire'
 import './App.css'
 
@@ -36,6 +37,8 @@ const App  = () => {
                     case 'auth/wrong-password':
                         setPasswordError(err.message)
                         break;
+                    default: 
+                        setEmailError('something went wrong!')
                 }
             })
     }
@@ -54,6 +57,8 @@ const App  = () => {
                     case 'auth/weak-password':
                         setPasswordError(err.message)
                         break;
+                    default:
+                        setEmailError('something went wrong!')
                 }
             })
     }
@@ -75,10 +80,13 @@ const App  = () => {
 
     useEffect(() => {
         authListener();
-    }, [])
+    }, [user])
     return (
-        <div>
-            <Login 
+        <div className="App">
+            {user ? (
+                <Dashboard handleLogout={handleLogout} />
+            ) : (
+                <Login 
                 email={email}
                 setEmail={setEmail}
                 password={password}
@@ -90,6 +98,7 @@ const App  = () => {
                 emailError={emailError}
                 passwordError={passwordError}
             />
+            )}
         </div>
     )
 }

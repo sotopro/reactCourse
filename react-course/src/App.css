@@ -89,3 +89,33 @@ button {
   color: red;
   font-size: 16px;
 }
+
+.dashboard {
+  width: 100%;
+  min-height: 100vh;
+  background: radial-gradient(
+    ellipse at left bottom,
+    rgba(27,164,166,1) 0%,
+    rgba(32,204,207,0.9) 59%,
+    rgba(18,107,109, 0.9) 100%
+  );
+}
+
+.dashboard nav {
+  background: #3bacbb;
+  width: 100%;
+  padding: 20px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dashboard nav h2 {
+  color: #ffffff;
+}
+
+.dashboard nav button {
+  width: 90px;
+  padding: 8px 0;
+  background-color: #2b5458;
+}
